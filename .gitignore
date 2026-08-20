@@ -1,0 +1,25 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.Python
+*.egg-info/
+
+# Environment / secrets
+.env
+.env.local
+*.pem
+
+# AWS
+.aws-sam/
+
+# Local database (seeded fresh via seed_db.py — don't commit generated data)
+resources.db
+
+# OS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
