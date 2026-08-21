@@ -48,6 +48,16 @@ python3 matching_agent.py
 It queries `resources.db` via the `query_resources` tool (`tools.py`) and returns a ranked,
 explained shortlist using Claude on Amazon Bedrock.
 
+## Running the chat UI
+
+```bash
+streamlit run app.py
+```
+
+A branded (Macknificient World green/gold) chat front end for the Family Matching Agent —
+the interface a case worker or parent would actually use. Shows a live feed of the Discovery
+Agent's most recent finds in the sidebar, and lets the shortlist be downloaded as text.
+
 ## Running the Discovery & Vetting Agent
 
 ```bash
