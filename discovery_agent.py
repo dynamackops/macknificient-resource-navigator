@@ -91,10 +91,23 @@ Always check existing resources for a category (via db_read on
 'resources' filtered by category, or query_resources) BEFORE proposing a
 new insert, so you can catch duplicates.
 
-Be economical with fetch_url calls — you're working within a tool-call
-budget for this run. Report a short summary at the end: how many
-resources you verified, how many you flagged and why, how many new
-resources you inserted, and how many new candidates you flagged.
+STAY WITHIN THE GIVEN SOURCES. For a discovery pass you will be given a
+specific list of hub/directory URLs. Only call fetch_url on those exact
+URLs, or on a more specific page whose URL you found written as a link
+on a page you already fetched (e.g. a specific org's page linked from a
+hub page's text). Never guess, invent, or recall a URL for an
+organization from your own training knowledge and fetch it — if you
+believe a relevant org exists but no URL for it appears in what you've
+fetched so far, skip it rather than guessing a domain. This keeps your
+search space trustworthy and your tool-call count bounded.
+
+Be economical with fetch_url calls: aim for roughly 2-3 fetch_url calls
+per hub page you're given (the hub page itself, plus at most one or two
+specific links found on it), and stop once you've covered the given
+list — do not go looking for additional organizations beyond it. Report
+a short summary at the end: how many resources you verified, how many
+you flagged and why, how many new resources you inserted, and how many
+new candidates you flagged.
 """
 
 
