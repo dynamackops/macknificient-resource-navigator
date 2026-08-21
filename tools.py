@@ -241,6 +241,33 @@ def db_write(table: str, action: str, data: dict, row_id: Optional[int] = None) 
 
 
 @tool
+def mark_verified(resource_id: int) -> dict:
+    """Stamp an existing resource as freshly re-verified.
+
+    Use this after fetch_url confirms a resource's source_url still
+    resolves and its content still matches what's stored (no closure/
+    discontinuation language, eligibility unchanged) — the mechanically
+    verifiable, no-judgment-needed case. Sets last_verified_at to now.
+    For anything stale, dead, or ambiguous, use flag_for_review instead.
+
+    Args:
+        resource_id: id of the resource in the resources table.
+    """
+    conn = get_connection()
+    try:
+        cur = conn.execute(
+            "UPDATE resources SET last_verified_at = ? WHERE id = ?",
+            (now_iso(), resource_id),
+        )
+        conn.commit()
+        if cur.rowcount == 0:
+            return {"error": f"No resource with id {resource_id}"}
+        return {"status": "verified", "id": resource_id}
+    finally:
+        conn.close()
+
+
+@tool
 def flag_for_review(reason: str, resource_id: Optional[int] = None, candidate: Optional[dict] = None) -> dict:
     """Escalate an ambiguous or duplicate resource to a human reviewer.
 

@@ -48,6 +48,26 @@ python3 matching_agent.py
 It queries `resources.db` via the `query_resources` tool (`tools.py`) and returns a ranked,
 explained shortlist using Claude on Amazon Bedrock.
 
+## Running the Discovery & Vetting Agent
+
+```bash
+# Spot-check up to N existing resources for dead links / stale info
+python3 discovery_agent.py verify --limit 8
+
+# Look for new candidate resources by reading curated hub/directory pages
+python3 discovery_agent.py discover --category youth_activities
+
+# Verify then discover in one run — this is the mode to put on a schedule
+# (cron, or EventBridge -> AgentCore Runtime)
+python3 discovery_agent.py full
+```
+
+It re-checks each resource's `source_url` with `fetch_url` and either marks it verified
+(`mark_verified`) or escalates it (`flag_for_review`) — dead links and ambiguous/duplicate
+candidates always go to the human review queue (the `review_queue` table) rather than being
+auto-approved or auto-deleted. New, clearly non-duplicate finds are inserted directly with
+`confidence='medium'`, pending a human spot-check.
+
 ## Tech stack
 
 - [Strands Agents SDK](https://strandsagents.com/) (Python)
