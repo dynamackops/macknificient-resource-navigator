@@ -36,6 +36,18 @@ aws configure   # region: us-east-1
 python3 seed_db.py   # loads seed_resources.json into resources.db
 ```
 
+## Running the Family Matching Agent
+
+```bash
+python3 matching_agent.py "affordable dance or sports programs for an 8-year-old in 33610"
+
+# or interactively:
+python3 matching_agent.py
+```
+
+It queries `resources.db` via the `query_resources` tool (`tools.py`) and returns a ranked,
+explained shortlist using Claude on Amazon Bedrock.
+
 ## Tech stack
 
 - [Strands Agents SDK](https://strandsagents.com/) (Python)
