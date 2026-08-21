@@ -78,6 +78,22 @@ candidates always go to the human review queue (the `review_queue` table) rather
 auto-approved or auto-deleted. New, clearly non-duplicate finds are inserted directly with
 `confidence='medium'`, pending a human spot-check.
 
+### Running it on a schedule
+
+`run_discovery.sh` wraps `discovery_agent.py full` for cron — it resolves its own location, so
+it works regardless of where the repo is cloned:
+
+```bash
+crontab -e
+# add (runs weekly, Monday 6am local time):
+0 6 * * 1 /path/to/macknificient-resource-navigator/run_discovery.sh
+```
+
+Run `pwd` inside the repo to get the absolute path for that line. Each run's output lands in
+`logs/discovery_<timestamp>.log` (gitignored). This satisfies the "runs autonomously on a
+schedule" requirement without needing AgentCore/EventBridge — see Section 5 of the project plan
+for the AgentCore deployment path as a stretch goal.
+
 ## Tech stack
 
 - [Strands Agents SDK](https://strandsagents.com/) (Python)
